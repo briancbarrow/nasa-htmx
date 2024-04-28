@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"net/url"
+	"time"
 )
 
 type SolarFlare struct {
@@ -21,7 +23,23 @@ type SolarFlareResponse struct {
 }
 
 func (s *Server) SolarFlareHandler(w http.ResponseWriter, r *http.Request) {
-	resp, err := s.getSolarFlareData()
+	var requestData struct {
+		StartDate string `json:"start_date"`
+		EndDate   string `json:"end_date"`
+	}
+
+	err := json.NewDecoder(r.Body).Decode(&requestData)
+	if err != nil {
+		http.Error(w, "Invalid request body", http.StatusBadRequest)
+		return
+	}
+
+	if (requestData.StartDate != "" && !isValidDate(requestData.StartDate)) || (requestData.EndDate != "" && !isValidDate(requestData.EndDate)) {
+		http.Error(w, "Invalid date format. Use yyyy-MM-dd", http.StatusBadRequest)
+		return
+	}
+
+	resp, err := s.getSolarFlareData(requestData.StartDate, requestData.EndDate)
 	if err != nil {
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		log.Fatalf("Error getting solar flare data: %v", err)
@@ -40,8 +58,23 @@ func (s *Server) SolarFlareHandler(w http.ResponseWriter, r *http.Request) {
 	_, _ = w.Write(jsonResp)
 }
 
-func (s *Server) getSolarFlareData() (SolarFlareResponse, error) {
-	resp, err := http.Get(fmt.Sprintf("https://api.nasa.gov/DONKI/FLR?api_key=%s", s.nasa_api_key))
+func (s *Server) getSolarFlareData(start_date, end_date string) (SolarFlareResponse, error) {
+	baseUrl, err := url.Parse("https://api.nasa.gov/DONKI/FLR")
+	if err != nil {
+		log.Fatalf("error parsing URL. Err: %v", err)
+	}
+
+	params := url.Values{}
+	if start_date != "" {
+		params.Add("startDate", start_date)
+	}
+	if end_date != "" {
+		params.Add("endDate", end_date)
+	}
+	params.Add("api_key", s.nasa_api_key)
+	baseUrl.RawQuery = params.Encode()
+
+	resp, err := http.Get(baseUrl.String())
 	if err != nil {
 		return SolarFlareResponse{}, fmt.Errorf("error making request to NASA API. Err: %v", err)
 	}
@@ -59,4 +92,9 @@ func (s *Server) getSolarFlareData() (SolarFlareResponse, error) {
 	}
 
 	return solarFlareResponse, nil
+}
+
+func isValidDate(date string) bool {
+	_, err := time.Parse("2006-01-02", date)
+	return err == nil
 }
