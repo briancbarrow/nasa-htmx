@@ -41,8 +41,14 @@ func (s *Server) SolarFlareHandler(w http.ResponseWriter, r *http.Request) {
 
 	resp, err := s.getSolarFlareData(requestData.StartDate, requestData.EndDate)
 	if err != nil {
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-		log.Fatalf("Error getting solar flare data: %v", err)
+		if err.Error() == "error making request to NASA API. Rate limit exceeded" {
+			w.Header().Set("Retry-After", "60")
+			http.Error(w, "Rate limit exceeded", http.StatusTooManyRequests)
+			return
+		} else {
+			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+			log.Fatalf("Error getting solar flare data: %v", err)
+		}
 	}
 
 	if resp.Count == 0 {
@@ -78,7 +84,9 @@ func (s *Server) getSolarFlareData(start_date, end_date string) (SolarFlareRespo
 	if err != nil {
 		return SolarFlareResponse{}, fmt.Errorf("error making request to NASA API. Err: %v", err)
 	}
-
+	if resp.StatusCode == http.StatusTooManyRequests {
+		return SolarFlareResponse{}, fmt.Errorf("error making request to NASA API. Rate limit exceeded")
+	}
 	var solarFlares []SolarFlare
 	err = json.NewDecoder(resp.Body).Decode(&solarFlares)
 	if err != nil {
