@@ -11,13 +11,16 @@ import (
 )
 
 type Server struct {
-	port int
+	port         int
+	nasa_api_key string
 }
 
 func NewServer() *http.Server {
 	port, _ := strconv.Atoi(os.Getenv("PORT"))
+	nasa_api_key := os.Getenv("NASA_API_KEY")
 	NewServer := &Server{
-		port: port,
+		port:         port,
+		nasa_api_key: nasa_api_key,
 	}
 
 	// Declare Server config
