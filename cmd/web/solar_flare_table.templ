@@ -1,0 +1,68 @@
+package web
+
+import "time"
+
+type SolarFlareTableData struct {
+	SolarFlares []SolarFlareTime
+	StartDate   string
+	EndDate     string
+	Count       int
+}
+
+type SolarFlareTime struct {
+	Begin time.Time
+	Peak  time.Time
+	End   time.Time
+	Class string
+	Link  string
+}
+
+templ SolarFlareTable(sfData SolarFlareTableData, startDate, endDate string) {
+	<div class="px-4 sm:px-6 lg:px-8">
+		<div class="sm:flex sm:items-center">
+			<div class="sm:flex-auto">
+				<h2 class="text-base font-semibold leading-6 text-gray-900">Solar flare occurences between { startDate } and { endDate }</h2>
+			</div>
+		</div>
+		<div class="mt-4 flow-root">
+			<div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+				<div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+					<table class="min-w-full divide-y divide-gray-300">
+						<thead>
+							<tr class="divide-x divide-gray-200">
+								<th scope="col" class="py-3.5 pl-4 pr-4 text-left text-sm font-semibold text-gray-900">Begin</th>
+								<th scope="col" class="px-4 py-3.5 text-left text-sm font-semibold text-gray-900">Peak</th>
+								<th scope="col" class="px-4 py-3.5 text-left text-sm font-semibold text-gray-900">End</th>
+								<th scope="col" class="py-3.5 pl-4 pr-4 text-left text-sm font-semibold text-gray-900">Class</th>
+								<th scope="col" class="py-3.5 pl-4 pr-4 text-left text-sm font-semibold text-gray-900">Link</th>
+							</tr>
+						</thead>
+						<tbody class="divide-y divide-gray-200 bg-white">
+							for _, sf := range sfData.SolarFlares {
+								<tr class="divide-x divide-gray-200">
+									<td class="whitespace-nowrap py-4 pl-4 pr-4 text-sm text-gray-900">{ sf.Begin.Format("January 2, 2006") }</td>
+									<td class="whitespace-nowrap p-4 text-sm text-gray-500">
+										if sf.Peak.Format("January 2, 2006") != sf.Begin.Format("January 2, 2006") {
+											{ sf.Peak.Format("January 2, 2006") }
+										} else {
+											- 
+										}
+									</td>
+									<td class="whitespace-nowrap p-4 text-sm text-gray-500">
+										if sf.End.Format("January 2, 2006") != sf.Begin.Format("January 2, 2006") {
+											{ sf.End.Format("January 2, 2006") }
+										} else {
+											-
+										}
+									</td>
+									<td class="whitespace-nowrap py-4 pl-4 pr-4 text-sm text-gray-500">{ sf.Class }</td>
+									<td class="whitespace-nowrap py-4 pl-4 pr-4 text-sm text-gray-500"><a href={ templ.URL(sf.Link) } target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i></a></td>
+								</tr>
+							}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+}

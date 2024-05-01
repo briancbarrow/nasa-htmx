@@ -1,9 +1,8 @@
 package server
 
 import (
-	"net/http"
-
 	"nasa-htmx/cmd/web"
+	"net/http"
 
 	"github.com/a-h/templ"
 	"github.com/go-chi/chi/v5"
@@ -18,8 +17,8 @@ func (s *Server) RegisterRoutes() http.Handler {
 
 	fileServer := http.FileServer(http.FS(web.Files))
 	r.Handle("/assets/*", fileServer)
-	r.Get("/web", templ.Handler(web.HelloForm()).ServeHTTP)
-	r.Post("/hello", web.HelloWebHandler)
+	r.Get("/web/solar", templ.Handler(web.SolarFlarePage()).ServeHTTP)
+	r.Post("/web/solar", web.SolarFlareHandler)
 
 	return r
 }
