@@ -11,6 +11,26 @@ import (
 	"time"
 )
 
+type Asteroid struct {
+	Name              string       `json:"name"`
+	InfoLink          string       `json:"nasa_jpl_url"`
+	IsHazardous       bool         `json:"is_potentially_hazardous_asteroid"`
+	DiameterFeet      DiameterFeet `json:"estimated_diameter"`
+	CloseApproachDate string       `json:"close_approach_date"`
+}
+
+type AsteroidResponse struct {
+	Count        int                   `json:"element_count"`
+	AsteroidData map[string][]Asteroid `json:"asteroids"`
+}
+
+type DiameterFeet struct {
+	Feet struct {
+		Min float64 `json:"estimated_diameter_min"`
+		Max float64 `json:"estimated_diameter_max"`
+	} `json:"feet"`
+}
+
 type SolarFlare struct {
 	Begin string `json:"beginTime"`
 	Peak  string `json:"peakTime"`
@@ -69,4 +89,40 @@ func GetSolarFlareData(start_date, end_date string) (SolarFlareResponse, error) 
 	}
 
 	return solarFlareResponse, nil
+}
+
+func GetAsteroidData() (AsteroidResponse, error) {
+	api_key := os.Getenv("NASA_API_KEY")
+	baseUrl, err := url.Parse("https://api.nasa.gov/neo/rest/v1/feed")
+	if err != nil {
+		log.Fatalf("error parsing URL. Err: %v", err)
+	}
+
+	params := url.Values{}
+	params.Add("api_key", api_key)
+	baseUrl.RawQuery = params.Encode()
+
+	resp, err := http.Get(baseUrl.String())
+	if err != nil {
+		return AsteroidResponse{}, fmt.Errorf("error making request to NASA API. Err: %v", err)
+	}
+	if resp.StatusCode == http.StatusTooManyRequests {
+		return AsteroidResponse{}, fmt.Errorf("error making request to NASA API. Rate limit exceeded")
+	}
+
+	var asteroidResponse struct {
+		NearEarthObjects map[string][]Asteroid `json:"near_earth_objects"`
+		ElementCount     int                   `json:"element_count"`
+	}
+	err = json.NewDecoder(resp.Body).Decode(&asteroidResponse)
+	if err != nil {
+		return AsteroidResponse{}, fmt.Errorf("error decoding JSON. Err: %v", err)
+	}
+
+	externalResponse := AsteroidResponse{
+		AsteroidData: asteroidResponse.NearEarthObjects,
+		Count:        asteroidResponse.ElementCount,
+	}
+
+	return externalResponse, nil
 }

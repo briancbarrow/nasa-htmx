@@ -13,7 +13,8 @@ func (s *Server) RegisterRoutes() http.Handler {
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
 
-	r.Get("/", s.SolarFlareHandler)
+	r.Get("/solar", s.SolarFlareHandler)
+	r.Get("/asteroid", s.AsteroidHandler)
 
 	fileServer := http.FileServer(http.FS(web.Files))
 	r.Handle("/assets/*", fileServer)
