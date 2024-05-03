@@ -2,7 +2,6 @@ package server
 
 import (
 	"encoding/json"
-	"fmt"
 	"log"
 	"nasa-htmx/cmd/api/nasa"
 	helpers "nasa-htmx/internal"
