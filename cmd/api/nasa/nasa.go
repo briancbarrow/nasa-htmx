@@ -12,11 +12,11 @@ import (
 )
 
 type Asteroid struct {
-	Name              string       `json:"name"`
-	InfoLink          string       `json:"nasa_jpl_url"`
-	IsHazardous       bool         `json:"is_potentially_hazardous_asteroid"`
-	DiameterFeet      DiameterFeet `json:"estimated_diameter"`
-	CloseApproachDate string       `json:"close_approach_date"`
+	Name              string   `json:"name"`
+	InfoLink          string   `json:"nasa_jpl_url"`
+	IsHazardous       bool     `json:"is_potentially_hazardous_asteroid"`
+	Diameter          Diameter `json:"estimated_diameter"`
+	CloseApproachDate string   `json:"close_approach_date"`
 }
 
 type AsteroidResponse struct {
@@ -24,7 +24,7 @@ type AsteroidResponse struct {
 	AsteroidData map[string][]Asteroid `json:"asteroids"`
 }
 
-type DiameterFeet struct {
+type Diameter struct {
 	Feet struct {
 		Min float64 `json:"estimated_diameter_min"`
 		Max float64 `json:"estimated_diameter_max"`

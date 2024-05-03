@@ -18,8 +18,11 @@ func (s *Server) RegisterRoutes() http.Handler {
 
 	fileServer := http.FileServer(http.FS(web.Files))
 	r.Handle("/assets/*", fileServer)
+
 	r.Get("/web/solar", templ.Handler(web.SolarFlarePage()).ServeHTTP)
 	r.Post("/web/solar", web.SolarFlareHandler)
+
+	r.Get("/web/asteroid", web.AsteroidHandler)
 
 	return r
 }

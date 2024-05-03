@@ -90,6 +90,6 @@ func SolarFlareHandler(w http.ResponseWriter, r *http.Request) {
 	err = component.Render(r.Context(), w)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
-		log.Fatalf("Error rendering in HelloWebHandler: %e", err)
+		log.Fatalf("Error rendering in SolarFlareHandler: %e", err)
 	}
 }

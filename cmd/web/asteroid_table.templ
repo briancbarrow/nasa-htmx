@@ -1,0 +1,39 @@
+package web
+
+import (
+	"nasa-htmx/cmd/api/nasa"
+	"strconv"
+)
+
+templ AsteroidTable(asteroidData []nasa.Asteroid) {
+	<div class="flow-root">
+		<div class="-mx-4 -my-2 sm:-mx-6 lg:-mx-8">
+			<div class="inline-block min-w-full py-2 align-middle">
+				<table class="min-w-full border-separate border-spacing-0">
+					<thead>
+						<tr>
+							<th scope="col" class="sticky top-0 z-10 border-b border-gray-300 bg-white bg-opacity-75 py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 backdrop-blur backdrop-filter sm:pl-6 lg:pl-8">Name</th>
+							<th scope="col" class="sticky top-0 z-10 hidden border-b border-gray-300 bg-white bg-opacity-75 px-3 py-3.5 text-left text-sm font-semibold text-gray-900 backdrop-blur backdrop-filter sm:table-cell">Potentially Hazardous</th>
+							<th scope="col" class="sticky top-0 z-10 hidden border-b border-gray-300 bg-white bg-opacity-75 px-3 py-3.5 text-left text-sm font-semibold text-gray-900 backdrop-blur backdrop-filter lg:table-cell">Min Diameter (Feet)</th>
+							<th scope="col" class="sticky top-0 z-10 hidden border-b border-gray-300 bg-white bg-opacity-75 px-3 py-3.5 text-left text-sm font-semibold text-gray-900 backdrop-blur backdrop-filter lg:table-cell">Max Diameter (Feet)</th>
+							<th scope="col" class="sticky top-0 z-10 border-b border-gray-300 bg-white bg-opacity-75 px-3 py-3.5 text-left text-sm font-semibold text-gray-900 backdrop-blur backdrop-filter"><span class="sr-only">Link</span></th>
+						</tr>
+					</thead>
+					<tbody>
+						for _, asteroid := range asteroidData {
+							<tr>
+								<td class="whitespace-nowrap border-b border-gray-200 py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6 lg:pl-8">{ asteroid.Name }</td>
+								<td class="whitespace-nowrap border-b border-gray-200 hidden px-3 py-4 text-sm text-gray-500 sm:table-cell">{ strconv.FormatBool(asteroid.IsHazardous) }</td>
+								<td class="whitespace-nowrap border-b border-gray-200 hidden px-3 py-4 text-sm text-gray-500 lg:table-cell">{ strconv.FormatFloat(asteroid.Diameter.Feet.Min, 'f', 2, 64) }</td>
+								<td class="whitespace-nowrap border-b border-gray-200 hidden px-3 py-4 text-sm text-gray-500 lg:table-cell">{ strconv.FormatFloat(asteroid.Diameter.Feet.Max, 'f', 2, 64) }</td>
+								<td class="relative whitespace-nowrap border-b border-gray-200 py-4 pr-4 pl-3 text-right text-sm font-medium sm:pr-8 lg:pr-8">
+									<a href={ templ.URL(asteroid.InfoLink) } class="text-indigo-600 hover:text-indigo-900"><i class="fa-solid fa-arrow-up-right-from-square"></i><span class="sr-only">Link to more info about { asteroid.Name }</span></a>
+								</td>
+							</tr>
+						}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+}

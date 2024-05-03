@@ -23,7 +23,7 @@ func Base() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<!doctype html><html class=\"h-full bg-gray-100\" lang=\"en\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><title>NASA API Info Project</title><link rel=\"stylesheet\" href=\"/assets/css/output.css\"><script src=\"/assets/js/htmx.min.js\"></script><script src=\"https://kit.fontawesome.com/c58aa71f0c.js\" crossorigin=\"anonymous\"></script></head><body class=\"h-full\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<!doctype html><html class=\"h-full bg-white\" lang=\"en\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><title>NASA API Info Project</title><link rel=\"stylesheet\" href=\"/assets/css/output.css\"><script src=\"/assets/js/htmx.min.js\"></script><script src=\"https://kit.fontawesome.com/c58aa71f0c.js\" crossorigin=\"anonymous\"></script></head><body class=\"h-full\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
