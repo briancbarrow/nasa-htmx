@@ -82,10 +82,33 @@ func GetSolarFlareData(start_date, end_date string) (SolarFlareResponse, error) 
 		return iTime.After(jTime)
 	})
 
+	if start_date == "" {
+		start_date = time.Now().AddDate(0, 0, -30).Format("Jan 2, 2006")
+	} else {
+		sDate, err := time.Parse("2006-01-02", start_date)
+		if err != nil {
+			return SolarFlareResponse{}, fmt.Errorf("error processing date. Err: %v", err)
+		}
+		start_date = sDate.Format("Jan 2, 2006")
+	}
+
+	if end_date == "" {
+		end_date = time.Now().Format("Jan 2, 2006")
+	} else {
+		eDate, err := time.Parse("2006-01-02", end_date)
+		if err != nil {
+			return SolarFlareResponse{}, fmt.Errorf("error processing date. Err: %v", err)
+
+		}
+		end_date = eDate.Format("Jan 2, 2006")
+	}
+
 	count := len(solarFlares)
 	solarFlareResponse := SolarFlareResponse{
 		SolarFlares: solarFlares,
 		Count:       count,
+		StartDate:   start_date,
+		EndDate:     end_date,
 	}
 
 	return solarFlareResponse, nil

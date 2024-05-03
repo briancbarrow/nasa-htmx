@@ -2,6 +2,7 @@ package server
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"nasa-htmx/cmd/api/nasa"
 	helpers "nasa-htmx/internal"
@@ -14,10 +15,12 @@ func (s *Server) SolarFlareHandler(w http.ResponseWriter, r *http.Request) {
 		EndDate   string `json:"end_date"`
 	}
 
-	err := json.NewDecoder(r.Body).Decode(&requestData)
-	if err != nil {
-		http.Error(w, "Invalid request body", http.StatusBadRequest)
-		return
+	queryParams := r.URL.Query()
+	if queryParams.Get("start_date") != "" {
+		requestData.StartDate = queryParams.Get("start_date")
+	}
+	if queryParams.Get("end_date") != "" {
+		requestData.EndDate = queryParams.Get("end_date")
 	}
 
 	if (requestData.StartDate != "" && !helpers.IsValidDate(requestData.StartDate)) || (requestData.EndDate != "" && !helpers.IsValidDate(requestData.EndDate)) {
