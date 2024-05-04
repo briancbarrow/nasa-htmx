@@ -13,6 +13,8 @@ func (s *Server) RegisterRoutes() http.Handler {
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
 
+	r.Get("/", templ.Handler(web.HomePage()).ServeHTTP)
+
 	r.Get("/solar", s.SolarFlareHandler)
 	r.Get("/asteroid", s.AsteroidHandler)
 

@@ -1,0 +1,190 @@
+package web
+
+templ HomePage() {
+	@Base() {
+		<div class="bg-white px-6 py-8 lg:px-8">
+			<div class="mx-auto max-w-3xl text-base leading-7 text-gray-700">
+				<h1 class="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Project nasa-htmx</h1>
+				<p class="mt-6 text-xl leading-8">This is a small application meant to provide data from the NASA API. Specifically, it provides data about Solar Flares and Asteroids near Earth. There are two ways to access the data, either through a web interface or through a REST API. The web interface is built using htmx and the REST API is built using Go and Chi.</p>
+				<div class="mt-10 max-w-2xl">
+					<h2 class="mt-10 text-2xl font-bold tracking-tight text-gray-900">REST API</h2>
+					<h3 class="mt-4 text-xl font-bold tracking-tight text-gray-900">Solar Flares</h3>
+					<p class="mt-2"><strong>Parameters</strong>:</p>
+					<ul role="list" class="mt-4 max-w-xl space-y-4 text-gray-600">
+						<li class="flex gap-x-3">
+							<svg class="mt-1 h-5 w-5 flex-none text-indigo-600" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+								<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd"></path>
+							</svg>
+							<span><strong class="font-semibold text-gray-900">startDate: </strong> The start date of the query (Defaults to 30 days ago)</span>
+						</li>
+						<li class="flex gap-x-3">
+							<svg class="mt-1 h-5 w-5 flex-none text-indigo-600" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+								<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd"></path>
+							</svg>
+							<span><strong class="font-semibold text-gray-900">endDate: </strong> The end date of the query (Defaults to the current date)</span>
+						</li>
+					</ul>
+					<p class="mt-4"><strong>Example Response</strong>:</p>
+					<pre class="overflow-x-auto p-4 text-xs bg-gray-200">
+						<code class="language-json">
+							{ `{
+  "count": 1,
+  "solarFlares": [
+    {
+      "beginTime": "2021-09-07T20:48:00",
+      "peakTime": "2021-09-07T20:48:00",
+      "endTime": "2021-09-07T20:48:00",
+      "classType": "C1.1",
+      "link": "https://www.swpc.noaa.gov/products/goes-x-ray-flux"
+    }
+  ],
+  "startDate": "2021-09-07",
+  "endDate": "2021-09-07"
+}` }
+						</code>
+					</pre>
+					<p class="mt-6">This endpoint returns an object with the following fields:</p>
+					<ul role="list" class="mt-4 max-w-xl space-y-4 text-gray-600">
+						<li class="flex gap-x-3">
+							<svg class="mt-1 h-5 w-5 flex-none text-indigo-600" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+								<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd"></path>
+							</svg>
+							<span><strong class="font-semibold text-gray-900">count: </strong> The number of solar flares in the response</span>
+						</li>
+						<li class="flex gap-x-3">
+							<svg class="mt-1 h-5 w-5 flex-none text-indigo-600" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+								<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd"></path>
+							</svg>
+							<span><strong class="font-semibold text-gray-900">solarFlares: </strong> An array of objects with information about each solar flare</span>
+						</li>
+						<li class="flex gap-x-3">
+							<svg class="mt-1 h-5 w-5 flex-none text-indigo-600" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+								<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd"></path>
+							</svg>
+							<span><strong class="font-semibold text-gray-900">startDate: </strong> The start date of the query</span>
+						</li>
+						<li class="flex gap-x-3">
+							<svg class="mt-1 h-5 w-5 flex-none text-indigo-600" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+								<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd"></path>
+							</svg>
+							<span><strong class="font-semibold text-gray-900">endDate: </strong> The end date of the query</span>
+						</li>
+					</ul>
+					<p class="mt-8">Each solar flare object has the following fields:</p>
+					<ul role="list" class="mt-4 max-w-xl space-y-4 text-gray-600">
+						<li class="flex gap-x-3">
+							<svg class="mt-1 h-5 w-5 flex-none text-indigo-600" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+								<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd"></path>
+							</svg>
+							<span><strong class="font-semibold text-gray-900">beginTime: </strong> The start time of the solar flare</span>
+						</li>
+						<li class="flex gap-x-3">
+							<svg class="mt-1 h-5 w-5 flex-none text-indigo-600" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+								<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd"></path>
+							</svg>
+							<span><strong class="font-semibold text-gray-900">peakTime: </strong> The peak time of the solar flare</span>
+						</li>
+						<li class="flex gap-x-3">
+							<svg class="mt-1 h-5 w-5 flex-none text-indigo-600" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+								<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd"></path>
+							</svg>
+							<span><strong class="font-semibold text-gray-900">endTime: </strong> The end time of the solar flare</span>
+						</li>
+						<li class="flex gap-x-3">
+							<svg class="mt-1 h-5 w-5 flex-none text-indigo-600" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+								<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd"></path>
+							</svg>
+							<span><strong class="font-semibold text-gray-900">classType: </strong> The class of the solar flare</span>
+						</li>
+						<li class="flex gap-x-3">
+							<svg class="mt-1 h-5 w-5 flex-none text-indigo-600" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+								<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd"></path>
+							</svg>
+							<span><strong class="font-semibold text-gray-900">link: </strong> A link to more information about the solar flare</span>
+						</li>
+					</ul>
+					<h3 class="mt-10 text-xl font-bold tracking-tight text-gray-900">Asteroids</h3>
+					<p class="mt-2"><strong>Example Response</strong>:</p>
+					<pre class="overflow-x-auto p-4 text-xs bg-gray-200">
+						<code class="language-json">
+							{ `{
+  "count": 1,
+  "asteroids": [
+    {
+      "name": "2021 QL2",
+      "nasa_jpl_url": "https://ssd.jpl.nasa.gov/sbdb.cgi?sstr=2021%20QL2;old=0;orb=1;cov=0;log=0;cad=0#orb",
+      "is_potentially_hazardous_asteroid": false,
+      "close_approach_date": "2021-09-07",
+      "estimated_diameter": {
+        "feet": {
+          "min": 134.5,
+          "max": 301.8
+        }
+      }
+    }
+  ]
+}` }
+						</code>
+					</pre>
+					<p class="mt-6">This endpoint returns an object with the following fields:</p>
+					<ul role="list" class="mt-4 max-w-xl space-y-4 text-gray-600">
+						<li class="flex gap-x-3">
+							<svg class="mt-1 h-5 w-5 flex-none text-indigo-600" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+								<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd"></path>
+							</svg>
+							<span><strong class="font-semibold text-gray-900">count: </strong> The number of asteroids in the response</span>
+						</li>
+						<li class="flex gap-x-3">
+							<svg class="mt-1 h-5 w-5 flex-none text-indigo-600" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+								<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd"></path>
+							</svg>
+							<span><strong class="font-semibold text-gray-900">asteroids: </strong> An array of objects with information about each asteroid</span>
+						</li>
+					</ul>
+					<p class="mt-8">Each asteroid object has the following fields:</p>
+					<ul role="list" class="mt-4 max-w-xl space-y-4 text-gray-600">
+						<li class="flex gap-x-3">
+							<svg class="mt-1 h-5 w-5 flex-none text-indigo-600" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+								<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd"></path>
+							</svg>
+							<span><strong class="font-semibold text-gray-900">name: </strong> The name of the asteroid</span>
+						</li>
+						<li class="flex gap-x-3">
+							<svg class="mt-1 h-5 w-5 flex-none text-indigo-600" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+								<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd"></path>
+							</svg>
+							<span><strong class="font-semibold text-gray-900">nasa_jpl_url: </strong> A link to the NASA JPL page for the asteroid</span>
+						</li>
+						<li class="flex gap-x-3">
+							<svg class="mt-1 h-5 w-5 flex-none text-indigo-600" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+								<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd"></path>
+							</svg>
+							<span><strong class="font-semibold text-gray-900">is_potentially_hazardous_asteroid: </strong> Whether the asteroid is potentially hazardous</span>
+						</li>
+						<li class="flex gap-x-3">
+							<svg class="mt-1 h-5 w-5 flex-none text-indigo-600" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+								<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd"></path>
+							</svg>
+							<span><strong class="font-semibold text-gray-900">close_approach_date: </strong> The date of the closest approach to Earth</span>
+						</li>
+						<li class="flex gap-x-3">
+							<svg class="mt-1 h-5 w-5 flex-none text-indigo-600" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+								<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd"></path>
+							</svg>
+							<span><strong class="font-semibold text-gray-900">estimated_diameter: </strong> An object with the estimated diameter of the asteroid in feet</span>
+						</li>
+					</ul>
+					<h2 class="mt-10 text-2xl font-bold tracking-tight text-gray-900">Web Interface</h2>
+					<p class="mt-2">The web interface provides a simple way to access the data from the NASA API. You can view solar flare data and asteroid data by visiting the respective URLs. The data is loaded using htmx and updated dynamically without refreshing the page.</p>
+					<h3 class="mt-10 text-xl font-bold tracking-tight text-gray-900">Solar Flares</h3>
+					<h4 class="mt-4"><a class="text-blue-400" href="/web/solar">/web/solar</a></h4>
+					<p class="mt-2">This page initially displays two input fields for the start and end dates of the query. You can enter the dates in the format YYYY-MM-DD and click the "Submit" button to load the data. The solar flare data will be displayed below the input fields.</p>
+					<p class="mt-2">You can submit the form without entering any dates to use the default values (30 days ago to the current date).</p>
+					<h3 class="mt-10 text-xl font-bold tracking-tight text-gray-900">Asteroids</h3>
+					<h4 class="mt-4"><a class="text-blue-400" href="/web/asteroid">/web/asteroid</a></h4>
+					<p class="mt-2">This page displays the asteroid data directly when you visit the URL. The asteroid data will be displayed below the header.</p>
+				</div>
+			</div>
+		</div>
+	}
+}
